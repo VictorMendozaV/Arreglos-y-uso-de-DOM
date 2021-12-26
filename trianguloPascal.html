@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Triangulo de Pascal</title>
+    <style>
+        .row {
+            text-align: center;
+        }
+
+        .cell {
+            border: 1px solid black;
+            border-width: 1px 0px 0px 1px;
+            display: inline-block;
+            width: 40px;
+            padding: 10px 0px;
+        }
+
+        .row .cell:last-child {
+            border-right-width: 1px;
+        }
+
+        .container .row:last-child .cell {
+            border-bottom-width: 1px;
+        }
+    </style>
+<script>
+
+    function obtenerTamaño() {
+        var tamaño_piramide = new Array(document.getElementById("texto1").value);
+        tamaño_piramide.length = document.getElementById("texto1").value;
+        var triangulo = [];
+        for (var i = 0; i < tamaño_piramide.length; i++) {
+            triangulo.push([]);
+            for (var j = 0; j < tamaño_piramide.length; j++) {
+                triangulo[i].push(0);
+            }
+        }
+
+        triangulo[0][0] = 1;
+        var upperLeft, upper = null;
+        for (var y = 1; y < tamaño_piramide.length; y++) {
+            for (var z = 0; z < tamaño_piramide.length; z++) {
+                upperLeft = triangulo[y - 1][z - 1] === undefined ? 0 : triangulo[y - 1][z - 1];
+                upper = triangulo[y - 1][z];
+                triangulo[y][z] = upperLeft + upper;
+            }
+        }
+
+        var html = "";
+        for (var a = 0; a < tamaño_piramide.length; a++) {
+            html += '<div class="row">';
+            for (var b = 0; b < tamaño_piramide.length; b++) {
+                if (triangulo[a][b] === 0) {
+                    continue;
+                }
+                html += '<div class="cell">' + triangulo[a][b] + "</div>";
+            }
+            html += "</div>";
+        }
+        document.getElementById("demo2").innerHTML += html;
+    }
+</script>
+</head>
+<body name="body" text=black >
+
+<p> Tamaño de la piramide: </p>
+<p id="demo"></p>
+<table id="demo2"></table>
+<p id="demo3"></p>
+<input type="number" id="texto1">
+
+
+<button onclick="obtenerTamaño()">Crear Piramide</button>
+</body>
+</html>
